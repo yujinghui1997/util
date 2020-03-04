@@ -16,14 +16,14 @@ public class MyDruid {
         dataSource.setMinIdle(myDruidConfig.getMin());
         dataSource.setMaxActive(myDruidConfig.getMax());
         dataSource.setMaxWait(myDruidConfig.getMaxWait());
-        dataSource.setTestWhileIdle(myDruidConfig.isTestWhileIdle());
         dataSource.setTimeBetweenEvictionRunsMillis(myDruidConfig.getTimeBetweenEvictionRunSmillis());
         dataSource.setMinEvictableIdleTimeMillis(myDruidConfig.getMinEvictableIdleTimeMillis());
         dataSource.setValidationQuery(myDruidConfig.getValidationQuery());
+        dataSource.setTestWhileIdle(myDruidConfig.isTestWhileIdle());
         dataSource.setTestOnBorrow(myDruidConfig.getTestOnBorrow());
         dataSource.setTestOnReturn(myDruidConfig.getTestOnReturn());
         dataSource.setPoolPreparedStatements(myDruidConfig.getPoolPreparedStatements());
-        dataSource.setUseGlobalDataSourceStat(myDruidConfig.getUseGlobalDataSourceStat());
+        dataSource.setMaxOpenPreparedStatements(myDruidConfig.getMaxOpenPreparedStatements());
         dataSource.setConnectionProperties(myDruidConfig.getConnectionProperties());
         dataSource.setFilters(myDruidConfig.getFilters());
         dataSource.setProxyFilters(myDruidConfig.getProxyFilters());

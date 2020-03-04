@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyDruidConfig {
-
     private String driverClassName = "com.mysql.cj.jdbc.Driver";
     private String url = "jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true";
     private String username = "root";
@@ -14,20 +13,28 @@ public class MyDruidConfig {
     private Integer init = 5;
     private Integer min = 5;
     private Integer max = 20;
-    private Long maxWait = 6000L;
-    private boolean testWhileIdle = true;
-    private Long timeBetweenEvictionRunSmillis = 6000L;
+    private Long maxWait = 60000L;
+    private Long timeBetweenEvictionRunSmillis = 60000L;
     private Long minEvictableIdleTimeMillis = 30000L;
     private String validationQuery = "select 'x'";
+    private boolean testWhileIdle = true;
     private Boolean testOnBorrow = true;
     private Boolean testOnReturn = false;
     private Boolean poolPreparedStatements = true;
-    private Boolean useGlobalDataSourceStat = true;
+    private Integer maxOpenPreparedStatements = 20;
     private String connectionProperties = "druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500";
     private String filters = "stat";
     private List<Filter> proxyFilters = new ArrayList<>();
 
     public MyDruidConfig(){}
+
+    public Integer getMaxOpenPreparedStatements() {
+        return maxOpenPreparedStatements;
+    }
+
+    public void setMaxOpenPreparedStatements(Integer maxOpenPreparedStatements) {
+        this.maxOpenPreparedStatements = maxOpenPreparedStatements;
+    }
 
     public String getDriverClassName() {
         return driverClassName;
@@ -118,12 +125,6 @@ public class MyDruidConfig {
     }
     public void setPoolPreparedStatements(Boolean poolPreparedStatements) {
         this.poolPreparedStatements = poolPreparedStatements;
-    }
-    public Boolean getUseGlobalDataSourceStat() {
-        return useGlobalDataSourceStat;
-    }
-    public void setUseGlobalDataSourceStat(Boolean useGlobalDataSourceStat) {
-        this.useGlobalDataSourceStat = useGlobalDataSourceStat;
     }
     public String getConnectionProperties() {
         return connectionProperties;
