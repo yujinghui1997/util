@@ -1,5 +1,6 @@
 package com.yjh.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.filter.Filter;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.List;
 
 public class MyDruidConfig {
     private String driverClassName = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true";
+    private String url = "jdbc:mysql://{}?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true";
     private String username = "root";
     private String password ="root";
     private Integer init = 5;
@@ -46,7 +47,7 @@ public class MyDruidConfig {
         return url;
     }
     public void setUrl(String url) {
-        this.url = url;
+        this.url = StrUtil.format(this.url,url);
     }
     public String getUsername() {
         return username;
