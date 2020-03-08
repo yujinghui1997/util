@@ -111,8 +111,7 @@ public class MyLdtUtil {
        return isAm(ldt);
     }
     public static Boolean isAm(LocalDateTime ldt){
-        int hour =  ldt.getHour();
-        return hour <= 12;
+        return  ldt.getHour() <= 12;
     }
 
     public static Boolean isPm(String ldtStr){
@@ -123,8 +122,7 @@ public class MyLdtUtil {
         return isPm(ldt);
     }
     public static Boolean isPm(LocalDateTime ldt){
-        int hour =  ldt.getHour();
-        return hour > 12;
+        return ldt.getHour() > 12;
     }
 
     public static Boolean isRun(String ldtStr){
