@@ -1,8 +1,13 @@
 package com.yjh.config;
 
+import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.wall.WallConfig;
+import com.alibaba.druid.wall.WallFilter;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyDruid {
 
@@ -28,5 +33,16 @@ public class MyDruid {
         dataSource.setFilters(myDruidConfig.getFilters());
         dataSource.setProxyFilters(myDruidConfig.getProxyFilters());
         return dataSource;
+    }
+
+    public static List<Filter> getFilter() {
+        List<Filter> list = new ArrayList<Filter>();
+        WallFilter wallFilter = new WallFilter();
+        WallConfig wallConfig = new WallConfig();
+        wallConfig.setMultiStatementAllow(true);
+        wallConfig.setNoneBaseStatementAllow(true);
+        wallFilter.setConfig(wallConfig);
+        list.add(wallFilter);
+        return list;
     }
 }
