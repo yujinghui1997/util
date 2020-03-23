@@ -46,9 +46,12 @@ public class MyRedisUtil {
 	public void setString(String key, String value) {
 		setString(key, value, null);
 	}
-	public void setString(String key, String value, Long timeout) {
+	public void setString(String key, String value,Long timeout) {
+		setString(key, value, timeout,unit);
+	}
+	public void setString(String key, String value, Long timeout,TimeUnit unit) {
 		stringRedisTemplate.opsForValue().set(key, value);
-		setTime(key,timeout);
+		setTime(key,timeout,unit);
 	}
 	public String getString(String key) {
 		Object value = stringRedisTemplate.opsForValue().get(key);
@@ -62,9 +65,12 @@ public class MyRedisUtil {
 	public void setHash(String key, String field, Object value) {
 		setHash(key, field, value, null);
 	}
-	public void setHash(String key, String field, Object value, Long timeout) {
+	public void setHash(String key, String field, Object value,Long timeout) {
+		setHash(key, field, value, timeout,unit);
+	}
+	public void setHash(String key, String field, Object value, Long timeout,TimeUnit unit) {
 		stringRedisTemplate.opsForHash().put(key, field, JSON.toJSONString(value));
-		setTime(key, timeout);
+		setTime(key, timeout,unit);
 	}
 	public <T> T getHash(String key, String field, Class<T> clazz) {
 		Object value = stringRedisTemplate.opsForHash().get(key, field);
@@ -78,9 +84,12 @@ public class MyRedisUtil {
 	public void setSet(String key, String value) {
 		setSet(key, value, null);
 	}
-	public void setSet(String key, String value, Long timeout) {
+	public void setSet(String key, String value,Long timeout) {
+		setSet(key, value, timeout,unit);
+	}
+	public void setSet(String key, String value, Long timeout,TimeUnit unit) {
 		stringRedisTemplate.opsForSet().add(key, value);
-		setTime(key, timeout);
+		setTime(key, timeout,unit);
 	}
 	public Set<String> getSet(String key) {
 		return stringRedisTemplate.opsForSet().members(key);
@@ -94,11 +103,11 @@ public class MyRedisUtil {
 		stringRedisTemplate.convertAndSend(client, msg);
 	}
 
-	public void  setUnit(TimeUnit unit){
-		this.unit = unit;
-	}
 	//----------------------------辅助
 	public void setTime(String key, Long timeout) {
+		setTime(key,timeout,unit);
+	}
+	public void setTime(String key, Long timeout,TimeUnit unit) {
 		// null 是防止报错 大于0 是因为 设置负整数会出现系统不报错，但是redis添加不进去数据，redis默认-1为永久
 		if(null != timeout && timeout > 0){
 			stringRedisTemplate.expire(key, timeout, unit);
