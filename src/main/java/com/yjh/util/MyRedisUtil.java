@@ -94,6 +94,9 @@ public class MyRedisUtil {
 		stringRedisTemplate.convertAndSend(client, msg);
 	}
 
+	public void  setUnit(TimeUnit unit){
+		this.unit = unit;
+	}
 	//----------------------------辅助
 	public void setTime(String key, Long timeout) {
 		// null 是防止报错 大于0 是因为 设置负整数会出现系统不报错，但是redis添加不进去数据，redis默认-1为永久
