@@ -1,7 +1,8 @@
 package com.yjh.util;
 
 import cn.hutool.core.util.StrUtil;
-
+import com.alibaba.fastjson.JSONObject;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,5 +36,24 @@ public class MyStrUtil {
         return StrUtil.format(str,value);
     }
 
+
+    public static String toJsonStr(Object obj){
+        return JSONObject.toJSONString(obj);
+    }
+    public static Map<String,Object> parseMap(String obj){
+        return JSONObject.parseObject(obj);
+    }
+    public static List<Object> parseList(String json){
+        return  parseList(json,Object.class);
+    }
+    public static <T> List<T> parseList(String json,Class<T> clazz){
+        return  JSONObject.parseArray(json,clazz);
+    }
+    public static Object parseObj(String json){
+        return  parseObj(json,Object.class);
+    }
+    public static <T> T parseObj(String json,Class<T> clazz){
+        return  JSONObject.parseObject(json,clazz);
+    }
 
 }
