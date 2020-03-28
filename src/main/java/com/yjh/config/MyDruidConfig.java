@@ -9,8 +9,8 @@ import java.util.List;
 public class MyDruidConfig {
     private String driverClassName = "com.mysql.cj.jdbc.Driver";
     private String url = "jdbc:mysql://{}?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true";
-    private String username = "";
-    private String password ="";
+    private String username = "root";
+    private String password ="root";
     private Integer init = 5;
     private Integer min = 5;
     private Integer max = 20;
