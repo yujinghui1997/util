@@ -12,17 +12,17 @@ public class ResData<T> {
 	private T data;
 
 	public static<T> ResData<T> success(T data) {
-		return new ResData(MyHttpStatus.SUCCESS,true,"SUCCESS",data);
+		return new ResData(MyHttpStatus.SUCCESS.getCode(),true,"SUCCESS",data);
 	}
 	public static<T> ResData<T> fail(String message) {
 		return fail(MyHttpStatus.FAIL,message);
 	}
 	public static<T> ResData<T> fail(MyHttpStatus status,String message) {
-		return new ResData(status,false,message,null);
+		return new ResData(status.getCode(),false,message,null);
 	}
 
-	private ResData(MyHttpStatus code,Boolean status,String message,T data){
-		this.code = code.getCode();
+	private ResData(Integer code,Boolean status,String message,T data){
+		this.code = code;
 		this.status = status;
 		this.message = message;
 		this.data = data;
