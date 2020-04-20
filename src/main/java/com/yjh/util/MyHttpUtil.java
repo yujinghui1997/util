@@ -35,14 +35,14 @@ public class MyHttpUtil {
     public static String get(String url, Map<String, Object> param) {
         return get(url, param, null);
     }
-    public static String get(String url, Map<String, Object> param, Map<String, String> header) {
+    public static String get(String url, Map<String, Object> param, Map<String, Object> header) {
         HttpRequest request = HttpRequest.get(url);
         if (param != null && param.size() > 0) {
             request.form(param);
         }
         if (header != null && header.size() > 0) {
-            for (Map.Entry<String, String> entry : header.entrySet()) {
-                request.header(entry.getKey(), entry.getValue());
+            for (Map.Entry<String, Object> entry : header.entrySet()) {
+                request.header(entry.getKey(), entry.getValue().toString());
             }
         }
         request.charset(CHARSET_UTF8);
@@ -57,14 +57,14 @@ public class MyHttpUtil {
     public static String post(String url, Map<String, Object> param) {
         return post(url, param, null);
     }
-    public static String post(String url, Map<String, Object> param, Map<String, String> header) {
+    public static String post(String url, Map<String, Object> param, Map<String, Object> header) {
         HttpRequest request = HttpRequest.post(url);
         if (param != null && param.size() > 0) {
             request.form(param);
         }
         if (header != null && header.size() > 0) {
-            for (Map.Entry<String, String> entry : header.entrySet()) {
-                request.header(entry.getKey(), entry.getValue());
+            for (Map.Entry<String, Object> entry : header.entrySet()) {
+                request.header(entry.getKey(), entry.getValue().toString());
             }
         }
         request.charset(CHARSET_UTF8);
@@ -74,18 +74,18 @@ public class MyHttpUtil {
     public static String postJson(String url, Map<String, Object> param) {
         return postJson(url, param, null);
     }
-    public static String postJson(String url, Map<String, Object> param,Map<String, String> header) {
+    public static String postJson(String url, Map<String, Object> param,Map<String, Object> header) {
         String json = JSONUtil.toJsonStr(param);
         return postJson(url, json, header);
     }
     public static String postJson(String url,String json) {
         return postJson(url,json,null);
     }
-    public static String postJson(String url,String json, Map<String, String> header) {
+    public static String postJson(String url,String json, Map<String, Object> header) {
         HttpRequest request = HttpRequest.post(url);
         if (header != null && header.size() > 0) {
-            for (Map.Entry<String, String> entry : header.entrySet()) {
-                request.header(entry.getKey(), entry.getValue());
+            for (Map.Entry<String, Object> entry : header.entrySet()) {
+                request.header(entry.getKey(), entry.getValue().toString());
             }
         }
         request.timeout(timeOut);
@@ -98,11 +98,11 @@ public class MyHttpUtil {
     public static String postXml(String url, String xml) {
         return postXml(url, xml, null);
     }
-    public static String postXml(String url, String xml, Map<String, String> header) {
+    public static String postXml(String url, String xml, Map<String, Object> header) {
         HttpRequest request = HttpRequest.post(url);
         if (header != null && header.size() > 0) {
-            for (Map.Entry<String, String> entry : header.entrySet()) {
-                request.header(entry.getKey(), entry.getValue());
+            for (Map.Entry<String, Object> entry : header.entrySet()) {
+                request.header(entry.getKey(), entry.getValue().toString());
             }
         }
         request.body(xml);
