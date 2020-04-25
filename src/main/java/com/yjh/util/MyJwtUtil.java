@@ -23,6 +23,9 @@ public class MyJwtUtil {
     public static String getToken(String username){
         return getToken(TIME_OUT,KEY,username);
     }
+    public static String getToken(Integer timeout,String username){
+        return getToken(timeout,KEY,username);
+    }
     public static String getToken(Integer timeout,String key,String username){
         //签发时间
         Date start = new Date();
