@@ -5,7 +5,7 @@ import cn.hutool.http.HttpStatus;
 public class ResData<T> {
 
 	public static final ResData SUCCEESS = ResData.success(null);
-	public static final ResData FaIL = ResData.fail("FAIL");
+	public static final ResData FAIL = ResData.fail("FAIL");
 	private Integer code ;
 	private boolean status ;
 	private String message;
