@@ -1,16 +1,20 @@
 package com.yjh.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.druid.filter.Filter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * 数据库配置
+ */
+@Component
+@ConfigurationProperties(prefix = "com.yjh.mysql")
+public class MyDruidProperties {
 
-public class MyDruidConfig {
     private String driverClassName = "com.mysql.cj.jdbc.Driver";
     private String url = "jdbc:mysql://{}?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true";
-    private String username = "root";
-    private String password ="root";
+    private String username = "your_username";
+    private String password ="your_password";
     private Integer init = 5;
     private Integer min = 5;
     private Integer max = 20;
@@ -18,25 +22,22 @@ public class MyDruidConfig {
     private Long timeBetweenEvictionRunSmillis = 60000L;
     private Long minEvictableIdleTimeMillis = 30000L;
     private String validationQuery = "select 'x'";
-    private boolean testWhileIdle = true;
+    private Boolean testWhileIdle = true;
     private Boolean testOnBorrow = true;
     private Boolean testOnReturn = false;
     private Boolean poolPreparedStatements = true;
     private Integer maxOpenPreparedStatements = 20;
     private String connectionProperties = "druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500";
     private String filters = "stat";
-    private List<Filter> proxyFilters = new ArrayList<>();
 
-    public MyDruidConfig(){}
+    public MyDruidProperties(){}
 
     public Integer getMaxOpenPreparedStatements() {
         return maxOpenPreparedStatements;
     }
-
     public void setMaxOpenPreparedStatements(Integer maxOpenPreparedStatements) {
         this.maxOpenPreparedStatements = maxOpenPreparedStatements;
     }
-
     public String getDriverClassName() {
         return driverClassName;
     }
@@ -138,11 +139,5 @@ public class MyDruidConfig {
     }
     public void setFilters(String filters) {
         this.filters = filters;
-    }
-    public List<Filter> getProxyFilters() {
-        return proxyFilters;
-    }
-    public void setProxyFilters(List<Filter> proxyFilters) {
-        this.proxyFilters = proxyFilters;
     }
 }
