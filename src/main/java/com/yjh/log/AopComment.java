@@ -17,7 +17,7 @@ import java.util.Map;
 @Configuration
 public class AopComment {
 
-    private static final String AOP_LOG = "execution(public * *(..)) && @annotation(com.yjh.annotation.MyAopLog)";
+    private static final String AOP_LOG = "@annotation(com.yjh.annotation.MyAopLog)";
     private static final Logger log = LoggerFactory.getLogger(AopComment.class);
 
     @Async
