@@ -1,3 +1,19 @@
+#注意事项
+~~~~
+1.使用时请先排除spring的自动配置类
+2.扫描com.yjh包
+~~~~
+~~~~
+@SpringBootApplication(scanBasePackages = {"com.yjh"},exclude = {
+        DataSourceAutoConfiguration.class,
+        DruidDataSourceAutoConfigure.class
+})
+public class App {
+    public static void main(String[] args) {
+        SpringApplication.run(App.class,args);
+    }
+}
+~~~~
 # util开发常用工具
 ~~~~
 1，com.yjh.annotation 注解包
