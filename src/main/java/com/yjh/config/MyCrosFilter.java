@@ -14,11 +14,9 @@ import java.io.IOException;
 public class MyCrosFilter implements Filter {
 
     private Boolean open;
-    private String whiteList;
 
-    public MyCrosFilter(Boolean open, String whiteList) {
+    public MyCrosFilter(Boolean open) {
         this.open = open;
-        this.whiteList = whiteList;
     }
 
     @Override
@@ -26,19 +24,9 @@ public class MyCrosFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         if (this.open) {
-            String origin = whiteList;
-            if("*".equals(origin)){
-                origin =  request.getHeader("origin");
-                if (StrUtil.hasBlank(origin)){
-                    origin = "*";
-                }
-            } else {
-                String o = request.getHeader("origin");
-                if (origin.contains(o)){
-                    origin = o;
-                } else {
-                    origin = "";
-                }
+            String origin  =  request.getHeader("origin");
+            if (StrUtil.hasBlank(origin)){
+                origin = "*";
             }
             response.setCharacterEncoding("utf-8");
             response.setHeader("Access-Control-Allow-Origin", origin);

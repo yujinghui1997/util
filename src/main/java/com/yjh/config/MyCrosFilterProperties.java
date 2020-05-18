@@ -12,10 +12,7 @@ import java.util.List;
 public class MyCrosFilterProperties {
 
     private Boolean open = true;
-    private String name = "MyCrosFilter";
-    private String urlPattern = "*";
     private Integer order = 0;
-    private String whiteList = "*";
 
     public Boolean getOpen() {
         return open;
@@ -25,13 +22,6 @@ public class MyCrosFilterProperties {
         this.open = open;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Integer getOrder() {
         return order;
@@ -41,19 +31,4 @@ public class MyCrosFilterProperties {
         this.order = order;
     }
 
-    public String getUrlPattern() {
-        return urlPattern;
-    }
-
-    public void setUrlPattern(String urlPattern) {
-        this.urlPattern = urlPattern;
-    }
-
-    public String getWhiteList() {
-        return whiteList;
-    }
-
-    public void setWhiteList(String whiteList) {
-        this.whiteList = whiteList;
-    }
 }

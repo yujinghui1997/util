@@ -50,20 +50,10 @@ public class MyConfiguration {
     @Bean
     public FilterRegistrationBean filterRegistration() {
         FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
-        String  whiteList =  mcfp.getWhiteList();
-        if (!"*".equals(whiteList)){
-            String[] strArr =  whiteList.split(",");
-            List<String> strList = Arrays.asList(strArr);
-           whiteList =  strList.stream().map(s -> {
-                return "http://" + s;
-            }).collect(Collectors.joining(","));
-        }
-        Filter filter =  new MyCrosFilter(mcfp.getOpen(),whiteList);
+        Filter filter =  new MyCrosFilter(mcfp.getOpen());
         filterRegistration.setFilter(filter);
-        filterRegistration.setName(mcfp.getName());
-        String[] urls = mcfp.getUrlPattern().split(",");
-        List<String> urlPattern = Arrays.asList(urls);
-        filterRegistration.setUrlPatterns(urlPattern);
+        filterRegistration.setName("corsFilter");
+        filterRegistration.setUrlPatterns(Arrays.asList("*"));
         filterRegistration.setOrder(mcfp.getOrder());
         return filterRegistration;
     }
