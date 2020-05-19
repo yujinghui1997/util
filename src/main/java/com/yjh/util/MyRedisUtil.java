@@ -1,6 +1,7 @@
 package com.yjh.util;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -148,20 +149,26 @@ public class MyRedisUtil {
 		return new ArrayList<>(set);
 	}
 
-	public Boolean lock(String key){
-		return lock(key,5L);
+	public Boolean lock(String key,String value){
+		return lock(key,value,10L);
 	}
 
-	public Boolean lock(String key,Long timeOut){
-		Boolean lock =  stringRedisTemplate.opsForValue().setIfAbsent(key, IdUtil.objectId());
+	public Boolean lock(String key,String value,Long timeOut){
+		Boolean lock =  stringRedisTemplate.opsForValue().setIfAbsent(key, value);
 		if (lock){
 			setTime(key,timeOut,TimeUnit.SECONDS);
 		}
 		return lock;
 	}
 
-	public void unLock(String key){
-		delKey(key);
+	public void unLock(String key,String value){
+		String value1 = getString(key);
+		if (StrUtil.isNotBlank(value1) && value.equals(value1)){
+			delKey(key);
+		}
+	}
+	public String lockId(){
+		return IdUtil.randomUUID();
 	}
 
 }
