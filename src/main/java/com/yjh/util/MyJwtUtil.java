@@ -13,7 +13,7 @@ import java.util.*;
 public class MyJwtUtil {
 
     /** 私钥 **/
-    private static final String KEY = "dsahagfhgffdsadaew";
+    public static final String KEY = "5ec671fcbb3c94411c7e2fff";
     /** 时长 **/
     private static final Integer  TIME_OUT = 120;
     /**单位（分钟）**/

@@ -1,5 +1,7 @@
 package com.yjh.annotation;
 
+import com.yjh.util.MyJwtUtil;
+
 import java.lang.annotation.*;
 
 /**
@@ -11,9 +13,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface MyAuth {
-    /** 检查token **/
-    boolean authToken() default false;
-    /** 检验浏览器 **/
-    boolean authBrowser() default false;
-
+    boolean authToken() default true;
 }

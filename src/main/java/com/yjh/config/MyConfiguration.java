@@ -1,24 +1,37 @@
 package com.yjh.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.yjh.comp.MyAuthInterceptor;
+import com.yjh.comp.MyCrosFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Configuration
-public class MyConfiguration {
+public class MyConfiguration implements WebMvcConfigurer {
 
     @Autowired(required = false)
     private MyDruidProperties mdp;
+    @Autowired(required = false)
+    private MyAuthInterceptor myAuthInterceptor;
+
+    /**
+     * 天机拦截器
+     * @param registry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(myAuthInterceptor).addPathPatterns("/**");
+    }
+
     @Autowired(required = false)
     private MyCrosFilterProperties mcfp;
 

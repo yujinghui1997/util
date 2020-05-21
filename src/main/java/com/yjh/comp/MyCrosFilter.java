@@ -1,4 +1,4 @@
-package com.yjh.config;
+package com.yjh.comp;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
