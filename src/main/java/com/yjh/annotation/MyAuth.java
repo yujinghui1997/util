@@ -9,7 +9,7 @@ import java.lang.annotation.*;
  * 认证
  * @author Administrator
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface MyAuth {

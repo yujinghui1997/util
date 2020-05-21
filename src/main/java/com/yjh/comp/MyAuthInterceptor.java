@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.yjh.annotation.MyAuth;
 import com.yjh.config.MyJwtProperties;
 import com.yjh.core.MyHttpStatus;
+import com.yjh.core.MyJwtException;
 import com.yjh.core.ResData;
 import com.yjh.util.MyJwtUtil;
 import com.yjh.util.MyStrUtil;
@@ -32,34 +33,28 @@ public class MyAuthInterceptor extends HandlerInterceptorAdapter {
         // 获取方法
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
-        // 判断访问的后台接口 有没有 checkToken 注解 没有直接放行
+        // 获取方法的类
+        Class<?> methodClass = method.getDeclaringClass();
+        Boolean isAuth = false;
+        if (methodClass.isAnnotationPresent(MyAuth.class)) {
+            isAuth = methodClass.getAnnotation(MyAuth.class).authToken();
+        }
         if (method.isAnnotationPresent(MyAuth.class)) {
-            MyAuth myAuth = method.getAnnotation(MyAuth.class);
-            // 判断checkToken注解标记的方法 默认值 是否为 true
-            if (myAuth.authToken()) {
-                response.setContentType("application/json");
-                PrintWriter writer =  response.getWriter();
-                String token = request.getHeader(myJwtProperties.getHeadToken());
-                if (StrUtil.hasBlank(token)) {
-                    ResData data = ResData.fail(MyHttpStatus.TOKEN_ERR,"没有令牌，不可访问");
-                    writer.write(MyStrUtil.toJsonStr(data));
-                    writer.close();
-                    return false;
-                }
-                String username = request.getHeader(myJwtProperties.getHeadName());
-                if (StrUtil.hasBlank(username)) {
-                    ResData data = ResData.fail(MyHttpStatus.TOKEN_ERR,"匿名用户，不可访问");
-                    writer.write(MyStrUtil.toJsonStr(data));
-                    writer.close();
-                    return false;
-                }
-                boolean isVerify = MyJwtUtil.authToken(myJwtProperties.getKey(), token, username);
-                if (!isVerify) {
-                    ResData data = ResData.fail(MyHttpStatus.TOKEN_ERR,"无效令牌，不可访问");
-                    writer.write(MyStrUtil.toJsonStr(data));
-                    writer.close();
-                    return false;
-                }
+            isAuth = method.getAnnotation(MyAuth.class).authToken();
+        }
+        // 判断访问的后台接口 有没有 checkToken 注解 没有直接放行
+        if (isAuth) {
+            String token = request.getHeader(myJwtProperties.getHeadToken());
+            if (StrUtil.hasBlank(token)) {
+                throw new MyJwtException("没有令牌，不可访问");
+            }
+            String username = request.getHeader(myJwtProperties.getHeadName());
+            if (StrUtil.hasBlank(username)) {
+                throw new MyJwtException("匿名用户，不可访问");
+            }
+            boolean isVerify = MyJwtUtil.authToken(myJwtProperties.getKey(), token, username);
+            if (!isVerify) {
+                throw new MyJwtException("无效令牌，不可访问");
             }
             return true;
         }

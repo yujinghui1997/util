@@ -1,6 +1,7 @@
 package com.yjh.comp;
 
 import com.yjh.core.MyHttpStatus;
+import com.yjh.core.MyJwtException;
 import com.yjh.core.ResData;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -70,6 +71,10 @@ public class MyExceptionHandler {
         if (ex instanceof SignatureException) {
             String txt = "非法token";
             return ResData.fail(MyHttpStatus.TOKEN_ERR, txt);
+        }
+        if (ex instanceof MyJwtException) {
+            MyJwtException exception = (MyJwtException)ex;
+            return ResData.fail(MyHttpStatus.TOKEN_ERR, exception.getMessage());
         }
         return ResData.fail(MyHttpStatus.TOKEN_ERR, "jwt错误");
     }
