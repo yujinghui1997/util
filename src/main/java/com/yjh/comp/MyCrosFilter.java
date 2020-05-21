@@ -23,6 +23,7 @@ public class MyCrosFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
+        response.setCharacterEncoding("utf-8");
         if (this.open) {
             String origin  =  request.getHeader("origin");
             if (StrUtil.hasBlank(origin)){

@@ -26,7 +26,7 @@ public class MyAuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (!(handler instanceof Method)) {
+        if (!(handler instanceof HandlerMethod)) {
             return true;
         }
         // 获取方法
@@ -37,25 +37,26 @@ public class MyAuthInterceptor extends HandlerInterceptorAdapter {
             MyAuth myAuth = method.getAnnotation(MyAuth.class);
             // 判断checkToken注解标记的方法 默认值 是否为 true
             if (myAuth.authToken()) {
-                String msg = "";
+                response.setContentType("application/json");
+                PrintWriter writer =  response.getWriter();
                 String token = request.getHeader(myJwtProperties.getHeadToken());
                 if (StrUtil.hasBlank(token)) {
-                    msg = "没有令牌，不可访问";
+                    ResData data = ResData.fail(MyHttpStatus.TOKEN_ERR,"没有令牌，不可访问");
+                    writer.write(MyStrUtil.toJsonStr(data));
+                    writer.close();
+                    return false;
                 }
                 String username = request.getHeader(myJwtProperties.getHeadName());
                 if (StrUtil.hasBlank(username)) {
-                    msg = "匿名用户，不可访问";
+                    ResData data = ResData.fail(MyHttpStatus.TOKEN_ERR,"匿名用户，不可访问");
+                    writer.write(MyStrUtil.toJsonStr(data));
+                    writer.close();
+                    return false;
                 }
                 boolean isVerify = MyJwtUtil.authToken(myJwtProperties.getKey(), token, username);
                 if (!isVerify) {
-                    msg = "无效令牌，不可访问";
-                }
-                if (StrUtil.hasBlank(msg)){
-                    PrintWriter writer =  response.getWriter();
-                    ResData data = ResData.fail(MyHttpStatus.TOKEN_ERR,msg);
-                    String json = MyStrUtil.toJsonStr(data);
-                    writer.println(json);
-                    writer.flush();
+                    ResData data = ResData.fail(MyHttpStatus.TOKEN_ERR,"无效令牌，不可访问");
+                    writer.write(MyStrUtil.toJsonStr(data));
                     writer.close();
                     return false;
                 }
