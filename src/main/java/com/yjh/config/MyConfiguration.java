@@ -3,6 +3,8 @@ package com.yjh.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.yjh.comp.MyAuthInterceptor;
 import com.yjh.comp.MyCrosFilter;
+import com.yjh.properties.MyCrosFilterProperties;
+import com.yjh.properties.MyDruidProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
