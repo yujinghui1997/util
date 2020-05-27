@@ -1,12 +1,15 @@
 package com.yjh.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.yjh.comp.MyAuthInterceptor;
 import com.yjh.comp.MyCrosFilter;
 import com.yjh.properties.MyCrosFilterProperties;
 import com.yjh.properties.MyDruidProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +21,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 @Configuration
+@EnableAutoConfiguration(exclude = {DruidDataSourceAutoConfigure.class, DataSourceAutoConfiguration.class})
 public class MyConfiguration implements WebMvcConfigurer {
 
     @Autowired(required = false)
