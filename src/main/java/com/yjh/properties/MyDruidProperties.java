@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class MyDruidProperties {
 
     private String driverClassName = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://{}?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true";
+    private String url = "jdbc:mysql://{}?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true&useSSL=false";
     private String username = "your_username";
     private String password ="your_password";
     private Integer init = 5;
