@@ -1,8 +1,8 @@
 package com.yjh.comp;
 
-import com.yjh.annotation.EncryptData;
+import com.yjh.annotation.MyEncrypt;
 import com.yjh.core.ResData;
-import com.yjh.util.MyRsaUtil;
+import com.yjh.util.MyEncryptUtil;
 import com.yjh.util.MyStrUtil;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -18,20 +18,27 @@ public class MyResponseBodyAdvice implements ResponseBodyAdvice<ResData> {
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
         Class<?> parent = methodParameter.getDeclaringClass();
         Boolean isDe = false;
-        if (parent.isAnnotationPresent(EncryptData.class)){
-            isDe =  parent.getAnnotation(EncryptData.class).value();
+        if (parent.isAnnotationPresent(MyEncrypt.class)){
+            isDe =  parent.getAnnotation(MyEncrypt.class).value();
         }
-        if (methodParameter.hasMethodAnnotation(EncryptData.class)){
-            isDe = methodParameter.getMethodAnnotation(EncryptData.class).value();
+        if (methodParameter.hasMethodAnnotation(MyEncrypt.class)){
+            isDe = methodParameter.getMethodAnnotation(MyEncrypt.class).value();
         }
         return isDe;
     }
 
     @Override
     public ResData beforeBodyWrite(ResData resData, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
-        Object data = resData.getData();
-        String s = MyStrUtil.toJsonStr(data);
-        s = MyRsaUtil.priEncrypt(s);
-        return null;
+       if (resData.getCode() == 200){
+           Object data = resData.getData();
+           if (data != null){
+               String s = MyStrUtil.toJsonStr(data);
+               return ResData.success(MyEncryptUtil.AESEncode(s));
+           }
+       }
+        return resData;
     }
+
+
+
 }
