@@ -14,7 +14,7 @@
     <!--坐标地址-->
     <groupId>com.yjh</groupId>
     <artifactId>util</artifactId>
-    <version>2.5.6</version>
+    <version>3.1</version>
     <packaging>jar</packaging>
 
     <properties>
