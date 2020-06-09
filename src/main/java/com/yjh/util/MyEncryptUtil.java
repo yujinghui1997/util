@@ -1,6 +1,15 @@
 package com.yjh.util;
 
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.symmetric.AES;
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import cn.hutool.crypto.symmetric.SymmetricCrypto;
+import org.apache.logging.log4j.util.ProviderUtil;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -8,73 +17,69 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.security.SecureRandom;
 
 
 public class MyEncryptUtil {
-    private static String key = "eyJhbGciOiJIUzI1NiJ9eyJzdWIiOiJoZWxsbyIsImV4cCI6MTU5MTM3NDE4NCwiaWF0IjoxNTkxMzY2OTg0LCJqdGkiOiJmNWU3MzFjNGE2NTc0MmJkYmFlMDY3ODI2NzllMGYyZWhlbGxvIiwidXNlcm5hbWUiOiJoZWxsbyJ9hZTMUcPxxou7gaX9f5Yg1Hxhtewa2E6UtCMka77B1Vc";
+    //密钥 (需要前端和后端保持一致)
+    private static final String KEY = "eyJzdWIm5hbWUiOi";
+    private static final String ALGORITHMSTR = "AES/ECB/PKCS5Padding";
 
-    public static final String base64Encode(String base){
-        BASE64Encoder encoder =  new BASE64Encoder();
-        return encoder.encode(base.getBytes());
+    public static String AESDecrypt(String encrypt) {
+        return AESDecrypt(encrypt, KEY);
+    }
+    public static String AESEncrypt(String content) { return AESEncrypt(content, KEY); }
+
+    public static String AESEncrypt(String content, String encryptKey) {
+        return base64Encode(aesEncryptToBytes(content, encryptKey));
     }
 
-    public static final String base64Decode(String encoder){
+    public static String AESDecrypt(String encryptStr, String decryptKey) {
+        return aesDecryptByBytes(base64Decode(encryptStr), decryptKey);
+    }
+
+
+    public static String aesDecryptByBytes(byte[] encryptBytes, String decryptKey) {
         try {
-            BASE64Decoder decoder = new BASE64Decoder();
-            byte[] buf = decoder.decodeBuffer(encoder);
-            return new String(buf,"UTF-8");
-        } catch (Exception e) {
-            return null;
-        }
+            KeyGenerator kgen = KeyGenerator.getInstance("AES");
+            kgen.init(128);
+            Cipher cipher = Cipher.getInstance(ALGORITHMSTR);
+            cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(decryptKey.getBytes(), "AES"));
+            byte[] decryptBytes = cipher.doFinal(encryptBytes);
+            return new String(decryptBytes);
+        } catch (Exception e){}
+       return null;
     }
 
-
-
-    public static String AESEncode(String content){
-        return AESEncode(key,content);
-    }
-    public static String AESDecode(String content){
-        return AESDecode(key,content);
-    }
-
-    public static String AESEncode(String encodeRules, String content) {
+    public static byte[] aesEncryptToBytes(String content, String encryptKey)  {
         try {
-            KeyGenerator keygen = KeyGenerator.getInstance("AES");
-            keygen.init(128, new SecureRandom(encodeRules.getBytes()));
-            SecretKey original_key = keygen.generateKey();
-            byte[] raw = original_key.getEncoded();
-            SecretKey key = new SecretKeySpec(raw, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] byte_encode = content.getBytes("utf-8");
-            byte[] byte_AES = cipher.doFinal(byte_encode);
-            String aesEncode = new BASE64Encoder().encode(byte_AES).toString();
-            return aesEncode;
-        } catch (Exception e) { }
+            KeyGenerator kgen = KeyGenerator.getInstance("AES");
+            kgen.init(128);
+            Cipher cipher = Cipher.getInstance(ALGORITHMSTR);
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(encryptKey.getBytes(), "AES"));
+            return cipher.doFinal(content.getBytes("utf-8"));
+        } catch (Exception e){}
         return null;
     }
 
 
-    public static String AESDecode(String encodeRules, String content) {
+
+    public static String base64Encode(byte[] bytes){
+        return Base64.encodeBase64String(bytes);
+    }
+
+    public static byte[] base64Decode(String base64Code){
         try {
-            KeyGenerator keygen = KeyGenerator.getInstance("AES");
-            keygen.init(128, new SecureRandom(encodeRules.getBytes()));
-            SecretKey original_key = keygen.generateKey();
-            byte[] raw = original_key.getEncoded();
-            SecretKey key = new SecretKeySpec(raw, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] byte_content = new BASE64Decoder().decodeBuffer(content);
-            byte[] byte_decode = cipher.doFinal(byte_content);
-            String AES_decode = new String(byte_decode, "utf-8");
-            return AES_decode;
-        } catch (Exception e) { }
+            if (StringUtils.isEmpty(base64Code)){
+                return null;
+            }
+           return new BASE64Decoder().decodeBuffer(base64Code);
+        } catch (Exception e){}
         return null;
     }
 
-    public static String getMd5(String txt){
-        return DigestUtils.md5DigestAsHex(txt.getBytes()).toUpperCase();
-    }
+
 
 }
