@@ -7,7 +7,6 @@ import com.yjh.comp.MyCrosFilter;
 import com.yjh.comp.MyHandlerMethodArgumentResolver;
 import com.yjh.properties.MyCrosFilterProperties;
 import com.yjh.properties.MyDruidProperties;
-import org.apache.coyote.OutputBuffer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -41,7 +40,7 @@ public class MyConfiguration implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(myAuthInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(myAuthInterceptor).addPathPatterns("/**").order(0);
     }
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
