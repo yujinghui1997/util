@@ -2,19 +2,23 @@ package com.yjh.properties;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.stereotype.Component;
+
 
 /**
  * 数据库配置
  */
 @Component
 @ConfigurationProperties(prefix = "com.yjh.mysql")
-public class MyDruidProperties {
+public class MyDruidProperties implements Condition {
 
     private String driverClassName = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://{}?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true&useSSL=false";
-    private String username = "your_username";
-    private String password ="your_password";
+    private String url;
+    private String username;
+    private String password;
     private Integer init = 5;
     private Integer min = 5;
     private Integer max = 20;
@@ -48,7 +52,10 @@ public class MyDruidProperties {
         return url;
     }
     public void setUrl(String url) {
-        this.url = StrUtil.format(this.url,url);
+        String address = "jdbc:mysql://{}?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true&useSSL=false";
+        if (StrUtil.isNotBlank(url)){
+            this.url = StrUtil.format(address,url);
+        }
     }
     public String getUsername() {
         return username;
@@ -139,5 +146,12 @@ public class MyDruidProperties {
     }
     public void setFilters(String filters) {
         this.filters = filters;
+    }
+
+
+    @Override
+    public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
+        String value =  conditionContext.getEnvironment().getProperty("com.yjh.mysql.url");
+       return StrUtil.isNotBlank(value);
     }
 }
