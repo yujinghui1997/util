@@ -1,25 +1,22 @@
 package com.yjh.comp;
 
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.yjh.annotation.MyAuth;
-import com.yjh.core.MyHttpStatus;
 import com.yjh.core.MyJwtException;
-import com.yjh.core.ResData;
 import com.yjh.properties.MyJwtProperties;
 import com.yjh.util.MyJwtUtil;
-import com.yjh.util.MyStrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 @Component
+@Order(0)
 public class MyAuthInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
