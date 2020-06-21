@@ -6,8 +6,8 @@ public enum MySqlMethod {
      * 删除全部
      */
     DELETE_ALL("deleteAll", "根据 entity 条件删除记录", "<script>\nDELETE FROM %s\n</script>"),
-    INSERT_LIST("insertList", "批量插入", "<script>\nINSERT INTO %s %s VALUES %s\n</script>");
-
+    INSERT_LIST("insertList", "批量插入", "<script>\nINSERT INTO %s %s VALUES %s\n</script>"),
+    GETLASTID("getLastId","获取刚才插入的id","<script>\nSELECT LAST_INSERT_ID()\n</script>");
 
     private final String method;
     private final String desc;

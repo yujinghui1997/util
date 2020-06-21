@@ -8,4 +8,5 @@ import java.util.List;
 public interface HighMapper<T> extends BaseMapper<T> {
     int deleteAll();
     int insertList(@Param("list")List<T> list);
+    int getLastId();
 }
