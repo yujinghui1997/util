@@ -13,18 +13,16 @@ import java.util.*;
 public class MyJwtUtil {
 
     /** 私钥 **/
-    public static final String KEY = "5ec671fcbb3c94411c7e2fff";
     /** 时长 **/
     private static final Integer  TIME_OUT = 120;
     /**单位（分钟）**/
     private static final Integer unit = Calendar.MINUTE;
 
-
     public static String getToken(String username){
-        return getToken(TIME_OUT,KEY,username);
+        return getToken(TIME_OUT,MyContact.JWTKEY,username);
     }
     public static String getToken(Integer timeout,String username){
-        return getToken(timeout,KEY,username);
+        return getToken(timeout,MyContact.JWTKEY,username);
     }
     public static String getToken(Integer timeout,String key,String username){
         //签发时间
@@ -51,7 +49,7 @@ public class MyJwtUtil {
 
 
     public static String getSubject(String token) {
-       return getSubject(KEY,token);
+       return getSubject(MyContact.JWTKEY,token);
     }
     /**
      * Token的解密
@@ -66,7 +64,7 @@ public class MyJwtUtil {
     }
 
     public static Boolean authToken(String token, String username) {
-       return authToken(KEY,token,username);
+       return authToken(MyContact.JWTKEY,token,username);
     }
     /**
      * 检验token 是否正确

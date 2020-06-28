@@ -23,14 +23,12 @@ import java.security.SecureRandom;
 
 
 public class MyEncryptUtil {
-    //密钥 (需要前端和后端保持一致)
-    private static final String KEY = "eyJzdWIm5hbWUiOi";
     private static final String ALGORITHMSTR = "AES/ECB/PKCS5Padding";
 
     public static String AESDecrypt(String encrypt) {
-        return AESDecrypt(encrypt, KEY);
+        return AESDecrypt(encrypt, MyContact.AESKEY);
     }
-    public static String AESEncrypt(String content) { return AESEncrypt(content, KEY); }
+    public static String AESEncrypt(String content) { return AESEncrypt(content, MyContact.AESKEY); }
 
     public static String AESEncrypt(String content, String encryptKey) {
         return base64Encode(aesEncryptToBytes(content, encryptKey));

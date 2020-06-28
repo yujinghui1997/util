@@ -1,5 +1,6 @@
 package com.yjh.properties;
 
+import com.yjh.util.MyContact;
 import com.yjh.util.MyJwtUtil;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,7 @@ public class MyJwtProperties {
 
     private String headName = "username";
     private String headToken = "token";
-    private String key = MyJwtUtil.KEY;
+    private String key = MyContact.JWTKEY;
 
     public String getHeadName() {
         return headName;
