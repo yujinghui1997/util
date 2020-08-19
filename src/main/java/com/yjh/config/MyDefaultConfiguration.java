@@ -45,7 +45,7 @@ public class MyDefaultConfiguration implements WebMvcConfigurer {
     @Bean
     public FilterRegistrationBean filterRegistration() {
         FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
-        Filter filter = new MyCrosFilter();
+        Filter filter = new MyCrosFilter(myCrosFilterProperties.getOrigin(),myCrosFilterProperties.getHeaders());
         filterRegistration.setFilter(filter);
         filterRegistration.setName("corsFilter");
         filterRegistration.setUrlPatterns(Arrays.asList("*"));
